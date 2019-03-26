@@ -1,4 +1,4 @@
-## Build Multi-Host Network (BMHN)
+## Build Hyperledger Fabric Network (Multi-Host)
 
 based on https://github.com/hyperledger/fabric-samples/tree/release-1.4/first-network
 
