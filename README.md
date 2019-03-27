@@ -49,7 +49,7 @@ So the network that we are going to build will have the following below componen
 ```
 ## Prerequisites
 
-List of components that I used
+##### 1). List of components that I used
 
 Ubuntu-16.04
 Fabric — 1.4.0
@@ -68,6 +68,17 @@ Follow https://docs.docker.com/compose/install/
     - Install Compose >> Linux (step 1-2)
 )
 ```
+
+#### 2). Make sure specified ports are not blocked with firewall. 
+###### Ports for docker swarm
+- tcp:2377, tcp:7946
+- udp:7946, udp:4789
+
+###### Ports for Fabric containers
+- ca0.example.com, ca1.example.com >>> port 7054
+- orderer.example.com >>> port 7050                
+- peer0.org2.example.com, peer0.org1.example.com >>> port 7051             
+
 
 
 ## Setup Process
