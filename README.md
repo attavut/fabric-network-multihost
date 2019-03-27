@@ -99,7 +99,7 @@ sudo git clone https://github.com/attavut/fabric-network-multihost.git
 ### On VM-Org1
 ##### 4). Initialize a swarm
 ```
-sudo docker swarm init
+sudo docker swarm init --advertise-addr <VM-Org1 IP address>
 ```
 ##### 5). Join the swarm with the other host as a manager (VM-Org1 will create swarm)
 ```
@@ -107,7 +107,7 @@ sudo docker swarm join-token manager
 ```
 It will output something like this
 ```
-docker swarm join --token SWMTKN-1-xxxxx8kgzlalp0d3udtaz2jaavvp5d4xg7tyr0g5vhfm8pwpm5-8ckx8yq0r5a3dyyyyy xx.xx.xx.xx:2377
+docker swarm join --token SWMTKN-1-xxxxx8kgzlalp0d3udtaz2jaavvp5d4xg7tyr0g5vhfm8pwpm5-8ckx8yq0r5a3dyyyyy <VM-Org1 IP address>:2377
 ```
 
 ### On VM-Org2
