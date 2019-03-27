@@ -49,7 +49,7 @@ So the network that we are going to build will have the following below componen
 ```
 ## Prerequisites
 
-List of components that I used
+##### 1). List of components that I used
 
 Ubuntu-16.04
 Fabric — 1.4.0
@@ -68,6 +68,17 @@ Follow https://docs.docker.com/compose/install/
     - Install Compose >> Linux (step 1-2)
 )
 ```
+
+#### 2). Make sure specified ports are not blocked with firewall. 
+###### Ports for docker swarm
+- tcp:2377, tcp:7946
+- udp:7946, udp:4789
+
+###### Ports for Fabric containers
+- ca0.example.com, ca1.example.com >>> port 7054
+- orderer.example.com >>> port 7050                
+- peer0.org2.example.com, peer0.org1.example.com >>> port 7051             
+
 
 
 ## Setup Process
@@ -88,7 +99,7 @@ sudo git clone https://github.com/attavut/fabric-network-multihost.git
 ### On VM-Org1
 ##### 4). Initialize a swarm
 ```
-sudo docker swarm init
+sudo docker swarm init --advertise-addr <VM-Org1 IP address>
 ```
 ##### 5). Join the swarm with the other host as a manager (VM-Org1 will create swarm)
 ```
@@ -96,7 +107,7 @@ sudo docker swarm join-token manager
 ```
 It will output something like this
 ```
-docker swarm join --token SWMTKN-1-xxxxx8kgzlalp0d3udtaz2jaavvp5d4xg7tyr0g5vhfm8pwpm5-8ckx8yq0r5a3dyyyyy xx.xx.xx.xx:2377
+docker swarm join --token SWMTKN-1-xxxxx8kgzlalp0d3udtaz2jaavvp5d4xg7tyr0g5vhfm8pwpm5-8ckx8yq0r5a3dyyyyy <VM-Org1 IP address>:2377
 ```
 
 ### On VM-Org2
@@ -174,7 +185,7 @@ sudo docker ps -a
 
 
 ### On VM-Org2
-##### 13). create 'ca1.example.com' by execute below command (before you do so, replace {put the name of secret key} with the name of the secret key. You can find it under '/crypto-config/peerOrganizations/org1.example.com/ca/')
+##### 13). create 'ca1.example.com' by execute below command (before you do so, replace {put the name of secret key} with the name of the secret key. You can find it under '/crypto-config/peerOrganizations/org2.example.com/ca/')
 ```
 sudo docker run --rm -d --network="poc-net" --name ca1.example.com -p 7054:7054 -e FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server -e FABRIC_CA_SERVER_CA_NAME=ca1.example.com -e FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem -e FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/{put the name of secret key} -v $(pwd)/crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config -e CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=poc-net hyperledger/fabric-ca sh -c 'fabric-ca-server start -b admin:adminpw -d'
 ```
