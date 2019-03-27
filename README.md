@@ -144,6 +144,7 @@ Example copy step & command
 - [download via gcp console]
 
 ### On VM-Org2
+- sudo apt-get install unzip
 - [upload crypto-config.zip & channel-artifacts.zip  via gcp console]
 - sudo rm -rf ~/fabric-samples/fabric-network-multihost/crypto-config
 - sudo mkdir ~/fabric-samples/fabric-network-multihost/crypto-config
