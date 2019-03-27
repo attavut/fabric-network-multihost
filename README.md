@@ -124,6 +124,8 @@ sudo docker network create --attachable --driver overlay poc-net
 ```
 cd ~/fabric-samples/fabric-network-multihost/
 
+sudo chmod +x ./byfn.sh
+
 sudo ./byfn.sh generate
 
 ```
