@@ -174,7 +174,7 @@ sudo docker ps -a
 
 
 ### On VM-Org2
-##### 13). create 'ca1.example.com' by execute below command (before you do so, replace {put the name of secret key} with the name of the secret key. You can find it under '/crypto-config/peerOrganizations/org1.example.com/ca/')
+##### 13). create 'ca1.example.com' by execute below command (before you do so, replace {put the name of secret key} with the name of the secret key. You can find it under '/crypto-config/peerOrganizations/org2.example.com/ca/')
 ```
 sudo docker run --rm -d --network="poc-net" --name ca1.example.com -p 7054:7054 -e FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server -e FABRIC_CA_SERVER_CA_NAME=ca1.example.com -e FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem -e FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/{put the name of secret key} -v $(pwd)/crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config -e CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=poc-net hyperledger/fabric-ca sh -c 'fabric-ca-server start -b admin:adminpw -d'
 ```
