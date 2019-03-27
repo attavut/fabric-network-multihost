@@ -5,7 +5,6 @@ based on https://github.com/hyperledger/fabric-samples/tree/release-1.4/first-ne
 The directions for using the original 1 Org are documented at wahabjawed's article at Medium.
 ["Hyperledger Fabric on Multiple Hosts"](https://medium.com/@wahabjawed/hyperledger-fabric-on-multiple-hosts-a33b08ef24f)
 
-### Changes in this repo.
 
 #### Network Topology
 
