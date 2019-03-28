@@ -114,7 +114,7 @@ docker swarm join --token SWMTKN-1-xxxxx8kgzlalp0d3udtaz2jaavvp5d4xg7tyr0g5vhfm8
 
 ### On VM-Org2
 ##### 6) VM-Org2 join swarm
-We will copy output from 5). (the one on your terminal, not the one above) and add '--advertise-addr <VM-Org2 External IP address>' execute it on VM-Org2 terminal to make it join swarm
+We will copy output from 5). (the one on your terminal, not the one above) and add '--advertise-addr' for VM-Org2. Execute it on VM-Org2 terminal to make it join swarm
 ```
 docker swarm join --token SWMTKN-1-xxxxx8kgzlalp0d3udtaz2jaavvp5d4xg7tyr0g5vhfm8pwpm5-8ckx8yq0r5a3dyyyyy <VM-Org1 External IP address>:2377 --advertise-addr <VM-Org2 External IP address>
 ```
