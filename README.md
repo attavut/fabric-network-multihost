@@ -253,7 +253,7 @@ This script ('./scripts/script.sh') will:
 - Make peer0.org1 and peer0.org2 join the channel.
 - UpdateAnchorPeers for peer0.org1 and peer0.org2
 - InstallChaincode for peer0.org1 and peer0.org2
-- InstantiateChaincode for peer0.org1 and peer0.org2
+- InstantiateChaincode for peer0.org1
 - Query test on peer0.org1
 - Invoke test
 - Query test on peer0.org2
