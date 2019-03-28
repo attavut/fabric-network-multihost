@@ -101,7 +101,7 @@ sudo git clone https://github.com/attavut/fabric-network-multihost.git
 ### On VM-Org1
 ##### 4). Initialize a swarm
 ```
-sudo docker swarm init --advertise-addr <VM-Org1 IP address>
+sudo docker swarm init --advertise-addr <VM-Org1 External IP address>
 ```
 ##### 5). Join the swarm with the other host as a manager (VM-Org1 will create swarm)
 ```
@@ -109,12 +109,16 @@ sudo docker swarm join-token manager
 ```
 It will output something like this
 ```
-docker swarm join --token SWMTKN-1-xxxxx8kgzlalp0d3udtaz2jaavvp5d4xg7tyr0g5vhfm8pwpm5-8ckx8yq0r5a3dyyyyy <VM-Org1 IP address>:2377
+docker swarm join --token SWMTKN-1-xxxxx8kgzlalp0d3udtaz2jaavvp5d4xg7tyr0g5vhfm8pwpm5-8ckx8yq0r5a3dyyyyy <VM-Org1 External IP address>:2377
 ```
 
 ### On VM-Org2
 ##### 6) VM-Org2 join swarm
-We will copy output from 5). (the one on your terminal, not the one above) and execute it on VM-Org2 terminal to make it join swarm
+We will copy output from 5). (the one on your terminal, not the one above) and add '--advertise-addr <VM-Org2 External IP address>' execute it on VM-Org2 terminal to make it join swarm
+```
+docker swarm join --token SWMTKN-1-xxxxx8kgzlalp0d3udtaz2jaavvp5d4xg7tyr0g5vhfm8pwpm5-8ckx8yq0r5a3dyyyyy <VM-Org1 External IP address>:2377 --advertise-addr <VM-Org2 External IP address>
+```
+
 
 ### On VM-Org1
 ##### 7). Create docker network (overlay network) to attach all Hyperledger services ("poc-net" in my case).
