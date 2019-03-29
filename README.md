@@ -23,9 +23,6 @@ So the network that we are going to build will have the following below componen
 * 1 PEER of Org1 (peer0.org2)
 * CouchDB (couchdb1)
 
-##### Network graph descriptor
-
-
 ```
   +----+-----+        +-----+----+
   |          |        |          |
