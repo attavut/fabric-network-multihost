@@ -6,7 +6,7 @@
 version: '2'
 
 networks:
-  ${COMPOSE_PROJECT_NAME}:
+  poc-net:
 
 services:
   ca0.example.com:
@@ -16,7 +16,7 @@ services:
       - FABRIC_CA_SERVER_CA_NAME=ca0.example.com
       - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem 
       - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY 
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=poc-net
       #- FABRIC_CA_SERVER_TLS_ENABLED=true
       #- FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
       #- FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY
@@ -28,7 +28,7 @@ services:
       - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca0.example.com
     networks:
-      - ${COMPOSE_PROJECT_NAME}
+      - poc-net
 
   orderer.example.com:
     extends:
@@ -43,7 +43,7 @@ services:
     ports:
       - 7050:7050
     networks:
-      - ${COMPOSE_PROJECT_NAME}
+      - poc-net
 
   couchdb0:
     container_name: couchdb0
@@ -53,13 +53,13 @@ services:
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=poc-net
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
     # for example map it to utilize Fauxton User Interface in dev environments.
     ports:
       - "5984:5984"
     networks:
-      - ${COMPOSE_PROJECT_NAME}
+      - poc-net
 
   peer0.org1.example.com:
     extends:
@@ -90,7 +90,7 @@ services:
     ports:
       - 7051:7051
     networks:
-      - ${COMPOSE_PROJECT_NAME}
+      - poc-net
     depends_on:
       - couchdb0
   
