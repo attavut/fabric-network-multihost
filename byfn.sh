@@ -544,6 +544,8 @@ elif [ "$MODE" == "generate" ]; then
   EXPMODE="Generating certs and genesis block"
 elif [ "$MODE" == "upgrade" ]; then
   EXPMODE="Upgrading the network"
+elif [ "${MODE}" == "org1up" ]; then
+  org1Up
 else
   printHelp
   exit 1
