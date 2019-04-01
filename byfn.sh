@@ -150,35 +150,35 @@ function checkPrereqs() {
 # Generate the needed certificates, the genesis block and start the network.
 function networkUp() {
   checkPrereqs
-  # generate artifacts if they don't exist
-  if [ ! -d "crypto-config" ]; then
-    generateCerts
-    replacePrivateKey
-    generateChannelArtifacts
-  fi
-  if [ "${IF_COUCHDB}" == "couchdb" ]; then
-    if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up -d 2>&1
-    else
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up -d 2>&1
-    fi
-  else
-    if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA up -d 2>&1
-    else
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up -d 2>&1
-    fi
-  fi
-  if [ $? -ne 0 ]; then
-    echo "ERROR !!!! Unable to start network"
-    exit 1
-  fi
+  # # generate artifacts if they don't exist
+  # if [ ! -d "crypto-config" ]; then
+  #   generateCerts
+  #   replacePrivateKey
+  #   generateChannelArtifacts
+  # fi
+  # if [ "${IF_COUCHDB}" == "couchdb" ]; then
+  #   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up -d 2>&1
+  #   else
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up -d 2>&1
+  #   fi
+  # else
+  #   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA up -d 2>&1
+  #   else
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up -d 2>&1
+  #   fi
+  # fi
+  # if [ $? -ne 0 ]; then
+  #   echo "ERROR !!!! Unable to start network"
+  #   exit 1
+  # fi
 
-  if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-    sleep 1
-    echo "Sleeping 10s to allow kafka cluster to complete booting"
-    sleep 9
-  fi
+  # if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+  #   sleep 1
+  #   echo "Sleeping 10s to allow kafka cluster to complete booting"
+  #   sleep 9
+  # fi
 
   # now run the end to end script
   docker exec cli scripts/script.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE
@@ -186,6 +186,41 @@ function networkUp() {
     echo "ERROR !!!! Test failed"
     exit 1
   fi
+}
+
+function org1Up() {
+  checkPrereqs
+  # generate artifacts if they don't exist
+  if [ ! -d "crypto-config" ]; then
+    generateCerts
+    replacePrivateKey
+    generateChannelArtifacts
+  fi
+  # if [ "${IF_COUCHDB}" == "couchdb" ]; then
+  #   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up -d 2>&1
+  #   else
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up -d 2>&1
+  #   fi
+  # else
+  #   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA up -d 2>&1
+  #   else
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up -d 2>&1
+  #   fi
+  # fi
+  IMAGE_TAG=$IMAGETAG docker-compose -f docker-compose-org1.yaml up -d 2>&1
+  if [ $? -ne 0 ]; then
+    echo "ERROR !!!! Unable to org1's container up"
+    exit 1
+  fi
+
+  # if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+  #   sleep 1
+  #   echo "Sleeping 10s to allow kafka cluster to complete booting"
+  #   sleep 9
+  # fi
+
 }
 
 # Upgrade the network components which are at version 1.3.x to 1.4.x
@@ -295,7 +330,7 @@ function replacePrivateKey() {
   fi
 
   # Copy the template to the file that will be modified to add the private key
-  cp docker-compose-e2e-template.yaml docker-compose-e2e.yaml
+  # cp docker-compose-e2e-template.yaml docker-compose-e2e.yaml
 
   # The next steps will replace the template's contents with the
   # actual values of the private key file names for the two CAs.
@@ -303,15 +338,16 @@ function replacePrivateKey() {
   cd crypto-config/peerOrganizations/org1.example.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
-  sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
-  cd crypto-config/peerOrganizations/org2.example.com/ca/
-  PRIV_KEY=$(ls *_sk)
-  cd "$CURRENT_DIR"
-  sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
-  # If MacOSX, remove the temporary backup of the docker-compose file
-  if [ "$ARCH" == "Darwin" ]; then
-    rm docker-compose-e2e.yamlt
-  fi
+  sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-org1.yaml
+  
+  #cd crypto-config/peerOrganizations/org2.example.com/ca/
+  #PRIV_KEY=$(ls *_sk)
+  #cd "$CURRENT_DIR"
+  #sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+  ## If MacOSX, remove the temporary backup of the docker-compose file
+  #if [ "$ARCH" == "Darwin" ]; then
+  #  rm docker-compose-e2e.yamlt
+  #fi
 }
 
 # We will use the cryptogen tool to generate the cryptographic material (x509 certs)
@@ -568,13 +604,15 @@ elif [ "${MODE}" == "down" ]; then ## Clear the network
   networkDown
 elif [ "${MODE}" == "generate" ]; then ## Generate Artifacts
   generateCerts
-  #replacePrivateKey
+  replacePrivateKey
   generateChannelArtifacts
 elif [ "${MODE}" == "restart" ]; then ## Restart the network
   networkDown
   networkUp
 elif [ "${MODE}" == "upgrade" ]; then ## Upgrade the network from version 1.2.x to 1.3.x
   upgradeNetwork
+elif [ "${MODE}" == "org1up" ]; then
+  org1Up
 else
   printHelp
   exit 1
