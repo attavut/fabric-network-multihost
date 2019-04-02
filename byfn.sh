@@ -563,9 +563,9 @@ elif [ "$MODE" == "generate" ]; then
 elif [ "$MODE" == "upgrade" ]; then
   EXPMODE="Upgrading the network"
 elif [ "${MODE}" == "org1up" ]; then
-  org1Up
+  EXPMODE="Creating org1's containers"
 elif [ "${MODE}" == "org2up" ]; then
-  org2Up
+  EXPMODE="Creating org2's containers"
 else
   printHelp
   exit 1

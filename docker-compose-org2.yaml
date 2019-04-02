@@ -6,7 +6,9 @@
 version: '2'
 
 networks:
-  poc-net:
+  mobileidnet:
+    external:
+      name: ${COMPOSE_PROJECT_NAME}-net
 
 services:
   ca1.example.com:
@@ -16,7 +18,7 @@ services:
       - FABRIC_CA_SERVER_CA_NAME=ca1.example.com
       - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem 
       - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY 
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=poc-net
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=mobileidnet
       #- FABRIC_CA_SERVER_TLS_ENABLED=true
       #- FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
       #- FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY
@@ -28,7 +30,7 @@ services:
       - ./crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca1.example.com
     networks:
-      - poc-net
+      - mobileidnet
 
   # orderer.example.com:
   #   extends:
@@ -43,7 +45,7 @@ services:
   #   ports:
   #     - 7050:7050
   #   networks:
-  #     - poc-net
+  #     - mobileidnet
 
   couchdb1:
     container_name: couchdb1
@@ -53,13 +55,13 @@ services:
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=poc-net
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=mobileidnet
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
     # for example map it to utilize Fauxton User Interface in dev environments.
     ports:
       - 6984:5984 
     networks:
-      - poc-net
+      - mobileidnet
 
   peer0.org2.example.com:
     extends:
@@ -90,7 +92,7 @@ services:
     ports:
       - 9051:9051
     networks:
-      - poc-net
+      - mobileidnet
     depends_on:
       - couchdb1
   
