@@ -76,7 +76,9 @@ services:
       - CORE_NEXT=true
       #- CORE_PEER_CHAINCODEADDRESS=peer0.org1.example.com:7052
       #- CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      #(Noted: CORE_PEER_GOSSIP_BOOTSTRAP => used to bootstrap gossip within an organization)
       #- CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org1.example.com:8051
+      #(Noted: CORE_PEER_GOSSIP_EXTERNALENDPOINT => inform the gossip end point of a peer to other peers in different organization)
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_COMMITTER_LEDGER_ORDERER=orderer.example.com:7050
