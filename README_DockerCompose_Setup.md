@@ -132,7 +132,7 @@ sudo chmod +x ./byfn.sh
 sudo ./byfn.sh generate
 
 ```
-This will generate Crypto Material for you in "crypto-config" and "channel-artifacts" folder. You must copy these folders to VM-Org2 (copy to all hosts as you want)
+This will generate Crypto Material for you in "crypto-config" and "channel-artifacts" folder. You must copy these folders to VM-Org2 (copy to all hosts as you want) and copy 'docker-compose-org2.yaml' from VM-Org1 to VM-Org2
 
 Example copy step & command
 ```

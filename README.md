@@ -49,10 +49,10 @@ So the network that we are going to build will have the following below componen
 ## Setup Process
 
 ### Manually Setup
-./README_Manually_Setup.md
+[a relative link](README_Manually_Setup.md)
 
 ### Using Docker Compose 
-./README_DockerCompose_Setup.md
+[a relative link](README_DockerCompose_Setup.md)
 
 
 
