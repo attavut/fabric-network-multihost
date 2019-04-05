@@ -48,6 +48,10 @@ type ConsentLog struct {
 	TxCode       string `json:"txcode"`
 }
 
+func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
+	return shim.Success(nil)
+}
+
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	function, args := stub.GetFunctionAndParameters()
 	if function == "addConsent" {
