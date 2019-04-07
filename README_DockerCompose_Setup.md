@@ -226,9 +226,9 @@ This script ('./scripts/script.sh') will:
 - UpdateAnchorPeers for peer0.org1 and peer0.org2
 - InstallChaincode for peer0.org1 and peer0.org2
 - InstantiateChaincode for peer0.org1
-- Query test on peer0.org1
-- Invoke test
-- Query test on peer0.org2
+
+
+### For test query & invoke, you can use 'fabric client application' from  https://github.com/attavut/fabric-client-application
 
 
 
