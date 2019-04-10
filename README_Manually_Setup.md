@@ -259,7 +259,9 @@ This script ('./scripts/script.sh') will:
 ### For test query & invoke, you can use 'fabric client application' from  https://github.com/attavut/fabric-client-application
 
 
-
+### For couchDB, you can view the transactions at (open it on browser)
+VM-Org1 (PC 1): http://<VM-Org1 External IP address>:5984/_utils/#/database/mychannel_poc_cc/_all_docs
+VM-Org2 (PC 2): http://<VM-Org2 External IP address>:6984/_utils/#/database/mychannel_poc_cc/_all_docs
 
 
 
